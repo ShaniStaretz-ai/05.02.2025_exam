@@ -1,9 +1,9 @@
 import sqlite3
 
 
-def connect_to_db():
+def connect_to_db(db_name):
     try:
-        db_name: str = "solution_hw.db"
+
         connector = sqlite3.connect(db_name)
         connector.row_factory = sqlite3.Row  # allow to address the values by column name
         cursor = connector.cursor()
@@ -17,8 +17,12 @@ def execute_read_query(cursor, query, parameters=None):
     try:
         print("execute query:", query)
         if parameters is not None:
-            return cursor.execute(query, parameters)
-        return cursor.execute(query)
+            cursor.execute(query, parameters)
+
+        else:
+            cursor.execute(query)
+        rows = cursor.fetchall()
+        return rows
     except sqlite3.OperationalError as e:
         raise e
 
